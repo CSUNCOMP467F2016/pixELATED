@@ -5,15 +5,12 @@ var require = {
     jquery: 'external/jQuery/jquery-3.1.1.min',
     d3: 'external/D3/d3.v4.min',
     Canvas: 'js/Canvas',
-    ToolController: 'js/ToolController'
+    ToolController: 'js/ToolController',
+
+    //tools
+      BrushTool: 'js/Tools/BrushTool'
+      
   },
   shim: {
-    // --- Use shim to mix together all THREE.js subcomponents
-    /*'threeCore': { exports: 'THREE' },
-    'TrackballControls': { deps: ['threeCore'], exports: 'THREE' },
-    // --- end THREE sub-components
-    'ImprovedNoise': { exports: 'ImprovedNoise' },
-    'detector': { exports: 'Detector' },
-    'stats': { exports: 'Stats' }*/
   }
 };

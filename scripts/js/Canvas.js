@@ -1,3 +1,5 @@
+//http://codepen.io/techslides/pen/zowLd
+
 define(  [ 'jquery', 'd3' ],
 function (    $    ,  d3  ) {
 
@@ -104,7 +106,9 @@ function (    $    ,  d3  ) {
     },
     setImage: function( src ) {
       this.image.src = src;
-      this.redraw();
+      this.image.onload = function() {
+        Canvas.redraw();
+      }
     },
     redraw: function() {
 
