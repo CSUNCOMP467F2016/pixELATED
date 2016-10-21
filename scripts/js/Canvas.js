@@ -4,11 +4,13 @@ define(  [ 'jquery', 'd3' ],
 function (    $    ,  d3  ) {
 
   var Canvas = {
+    //The true canvas
     canvas: null,
     context: null,
     image: null,
     width: null,
     height: null,
+    //The canvas we see on the screen
     visual: {
       canvas: null,
       context: null,
