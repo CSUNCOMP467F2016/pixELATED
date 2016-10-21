@@ -23,6 +23,7 @@ function (     $   ,  BrushTool  ) {
             var clickedTool = $(this).attr( 'id' );
             if( ToolController.tools.hasOwnProperty( clickedTool ) ) {
               ToolController.activeTool = ToolController.tools[ clickedTool ];
+              $( '#options' ).empty();
               ToolController.activeTool.make();
               ToolController.activeToolName = clickedTool;
 
