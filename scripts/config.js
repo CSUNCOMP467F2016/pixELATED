@@ -8,7 +8,9 @@ var require = {
     ToolController: 'js/ToolController',
 
     //tools
-      BrushTool: 'js/Tools/BrushTool'
+      BrushTool: 'js/Tools/BrushTool' ,
+      RotateTool: 'js/Tools/RotateTool'
+
       
   },
   shim: {

@@ -175,7 +175,7 @@ function (    $    ,  d3  ) {
 
       var rotate = this.visual.context.rotate;
       this.visual.context.rotate = function(radians){
-          xform = xform.rotate(radians*180/Math.PI);
+          xform = xform.rotate((radians*Math.PI)/180);
           return rotate.call(Canvas.visual.context,radians);
       };
 

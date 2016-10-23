@@ -1,7 +1,7 @@
-define(  [ 'jquery', 'BrushTool' ],
-function (     $   ,  BrushTool  ) {
+define(  [ 'jquery', 'BrushTool', 'RotateTool' ],
+function (     $   ,  BrushTool  , RotateTool ) {
   var ToolController = {
-    tools: { 'BrushTool': BrushTool },
+    tools: { 'BrushTool': BrushTool, 'RotateTool': RotateTool },
     activeTool: null,
     activeToolName: null,
     init: function() {
