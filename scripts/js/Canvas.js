@@ -21,6 +21,7 @@ function (    $    ,  d3  ) {
       scaleRange: [0.1, 24], //10% to 2400%
       scaleAndCoords: null,
     },
+    drawInitialImage: false,
     init: function( id ) {
       this.visual.width = $( '#' + id ).width();
       this.visual.height = $( '#' + id ).height();
@@ -119,14 +120,17 @@ function (    $    ,  d3  ) {
     },
     setImage: function( src ) {
       this.image.src = src;
+      this.drawInitialImage = true;
       this.image.onload = function() {
         Canvas.width = this.width;
         Canvas.height = this.height;
         Canvas.canvas.width = Canvas.width;
         Canvas.canvas.height = Canvas.height;
         Canvas.context = Canvas.canvas.getContext( '2d' );
-        Canvas.context.drawImage( Canvas.image, 0, 0 );
-
+        if( this.drawInitialImage ) {
+          Canvas.context.drawImage( Canvas.image, 0, 0 );
+        }
+        Canvas.drawInitialImage = false;
         Canvas.refresh();
       }
     },
@@ -175,7 +179,7 @@ function (    $    ,  d3  ) {
 
       var rotate = this.visual.context.rotate;
       this.visual.context.rotate = function(radians){
-          xform = xform.rotate((radians*Math.PI)/180);
+          xform = xform.rotate(radians* (Math.PI/180));
           return rotate.call(Canvas.visual.context,radians);
       };
 
