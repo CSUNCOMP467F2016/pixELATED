@@ -1,5 +1,5 @@
-define(  [ 'Canvas', 'ToolController' ],
-function (  Canvas ,  ToolController  ) {
+define(  [ 'Canvas', 'ToolController', 'Upload' ],
+function (  Canvas ,  ToolController ,  Upload  ) {
   var app = {
     init: function () {
       Canvas.init( 'rightpanel' );
@@ -8,6 +8,8 @@ function (  Canvas ,  ToolController  ) {
       //Canvas.setImage( 'http://i.imgur.com/7f3AnsG.png' );
 
       ToolController.init();
+
+      Upload.init();
     }
   };
 

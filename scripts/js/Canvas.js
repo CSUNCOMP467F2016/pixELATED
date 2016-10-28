@@ -119,7 +119,11 @@ function (    $    ,  d3  ) {
       this.visual.canvas.addEventListener( 'mousewheel', handleScroll, false );
     },
     setImage: function( src ) {
-      this.image.src = src;
+      if( typeof mrc === 'string' || src instanceof String )
+        this.image.src = src;
+      else
+        this.image = src;
+      
       this.drawInitialImage = true;
       this.image.onload = function() {
         Canvas.width = this.width;

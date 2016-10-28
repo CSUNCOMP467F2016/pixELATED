@@ -6,6 +6,7 @@ var require = {
     d3: 'external/D3/d3.v4.min',
     Canvas: 'js/Canvas',
     ToolController: 'js/ToolController',
+    Upload: 'js/Upload',
 
     //tools
       BrushTool: 'js/Tools/BrushTool' ,
