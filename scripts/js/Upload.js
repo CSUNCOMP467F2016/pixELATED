@@ -1,6 +1,6 @@
 define(  [ 'jquery', 'Canvas' ],
 function (     $   ,  Canvas  ) {
-    
+
 var Upload = {
 	holder: document.getElementById('rightpanel'),
 	tests: {
@@ -32,7 +32,7 @@ var Upload = {
  		 	}
 		});
 		*/
-		if (Upload.tests.dnd) { 
+		if (Upload.tests.dnd) {
 		  Upload.holder.ondragover = function () { $('#rightpanel').addClass( 'hover' ); return false; };
 		  Upload.holder.ondragend = function () { $('#rightpanel').removeClass( 'hover' ); return false; };
 		  Upload.holder.ondrop = function (e) {
@@ -53,7 +53,7 @@ var Upload = {
 		reader.onload = function (event) {
 		  var image = new Image();
 		  image.src = event.target.result;
-		  //image.width = 600; 
+		  //image.width = 600;
 		  //Upload.holder.appendChild(image);
 		  Canvas.setImage( image );
 		};
@@ -74,14 +74,14 @@ var Upload = {
 		  var xhr = new XMLHttpRequest();
 		  xhr.open('POST', '/devnull.php');
 		  xhr.onload = function() {
-			Upload.progress.value = Upload.progress.innerHTML = 100;
+			//Upload.progress.value = Upload.progress.innerHTML = 100;
 		  };
 
 		  if (Upload.tests.progress) {
 			xhr.upload.onprogress = function (event) {
 			  if (event.lengthComputable) {
 				var complete = (event.loaded / event.total * 100 | 0);
-				Upload.progress.value = Upload.progress.innerHTML = complete;
+				//Upload.progress.value = Upload.progress.innerHTML = complete;
 			  }
 			}
 		  }
