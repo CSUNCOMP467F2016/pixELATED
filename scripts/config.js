@@ -12,10 +12,10 @@ var require = {
     Upload: 'js/Upload',
 
     //tools
-      BrushTool: 'js/Tools/BrushTool' ,
-      RotateTool: 'js/Tools/RotateTool',
-      ColorizeTool: 'js/Tools/ColorizeTool'
-
+    BrushTool: 'js/Tools/BrushTool' ,
+    RotateTool: 'js/Tools/RotateTool',
+    MirrorTool: 'js/Tools/MirrorTool',
+    ColorizeTool: 'js/Tools/ColorizeTool'
 
   },
   shim: {
