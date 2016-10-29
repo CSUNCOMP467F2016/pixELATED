@@ -9,10 +9,10 @@ var require = {
     Upload: 'js/Upload',
 
     //tools
-      BrushTool: 'js/Tools/BrushTool' ,
-      RotateTool: 'js/Tools/RotateTool'
+    BrushTool: 'js/Tools/BrushTool' ,
+    RotateTool: 'js/Tools/RotateTool',
+    MirrorTool: 'js/Tools/MirrorTool'
 
-      
   },
   shim: {
   }
