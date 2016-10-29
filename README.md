@@ -10,7 +10,7 @@ Hold 'shift' to drag and zoom canvas.
     1. Needs a UI for setting rotations (not just n degrees when activating tool).
   1. Colorize:  
     1. Sometimes undoes mirror and rotate.  
-    1. Like to return to top left corner.  
+    1. Likes to return to top left corner.  
   1. Mirror:
 * Libraries:
   1. JQuery https://jquery.com/  
