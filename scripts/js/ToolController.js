@@ -1,11 +1,15 @@
-define(  [ 'jquery', 'BrushTool', 'RotateTool', 'MirrorTool', 'ColorizeTool', 'CropTool'],
-function (     $   ,  BrushTool  , RotateTool ,  MirrorTool ,  ColorizeTool, CropTool  ) {
+define(  [ 'jquery', 'BrushTool', 'RotateTool', 'MirrorTool', 'ColorizeTool', 'CropTool', 
+           'SatAndHueTool', 'BriAndConTool'],
+function (     $   ,  BrushTool  , RotateTool ,  MirrorTool ,  ColorizeTool ,  CropTool ,  
+			SatAndHueTool ,  BriAndConTool) {
   var ToolController = {
     tools: { 'BrushTool': BrushTool,
              'RotateTool': RotateTool,
              'MirrorTool': MirrorTool,
              'ColorizeTool': ColorizeTool,
-             'CropTool': CropTool
+             'CropTool': CropTool,
+             'SatAndHueTool': SatAndHueTool,
+             'BriAndConTool': BriAndConTool
             },
     activeTool: null,
     activeToolName: null,

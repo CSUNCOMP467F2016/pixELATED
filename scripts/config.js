@@ -17,7 +17,9 @@ var require = {
     RotateTool: 'js/Tools/RotateTool',
     MirrorTool: 'js/Tools/MirrorTool',
     ColorizeTool: 'js/Tools/ColorizeTool',
-    CropTool: 'js/Tools/CropTool'
+    CropTool: 'js/Tools/CropTool',
+    SatAndHueTool: 'js/Tools/SatAndHueTool',
+    BriAndConTool: 'js/Tools/BriAndConTool'
 
   },
   shim: {
