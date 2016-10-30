@@ -6,6 +6,7 @@ var require = {
     jquery: 'external/jQuery/jquery-3.1.1.min',
     d3: 'external/D3/d3.v4.min',
     Caman: 'external/CamanJS/caman.full.min',
+    Farbtastic: 'external/Farbtastic/farbtastic12/farbtastic/farbtastic',
 
     Canvas: 'js/Canvas',
     ToolController: 'js/ToolController',
@@ -20,6 +21,7 @@ var require = {
 
   },
   shim: {
-    'Caman': { exports: 'Caman' }
+    'Caman': { exports: 'Caman' },
+    'Farbtastic': { deps: ['jquery'] }
   }
 };

@@ -2,7 +2,7 @@
 
 define(  [ 'jquery', 'd3' ],
 function (    $    ,  d3  ) {
-
+//Needs window resize function
   var Canvas = {
     //The true canvas
     canvas: null,
@@ -20,6 +20,7 @@ function (    $    ,  d3  ) {
       scale: null,
       scaleRange: [0.1, 24], //10% to 2400%
       scaleAndCoords: null,
+      offset: {}, //top/left obj denoting canvas screen offset from topleft of screen
     },
     init: function( id ) {
       this.visual.width = $( '#' + id ).width();
@@ -31,7 +32,7 @@ function (    $    ,  d3  ) {
         .attr( 'height', this.visual.height + 'px' );
       this.visual.canvas = document.getElementById( 'visualcanvas' );
       this.visual.context = this.visual.canvas.getContext( '2d' );
-
+      this.visual.offset = $( '#visualcanvas').offset();
       //Make it pixelated
       this.visual.context.mozImageSmoothingEnabled = false;
       this.visual.context.imageSmoothingEnabled = false;
