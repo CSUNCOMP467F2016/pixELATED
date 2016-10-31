@@ -6,8 +6,25 @@ function (     $   ,  Canvas  , d3 ) {
     make: function() {
       //Called when the user activates the tool
         var options = d3.select('#options');
-        options.html('Rotating 90 degrees');
-        rotate( 45 );
+        var Degree = 0;
+        
+
+        options.append('input')
+        .attr('id', 'Rotate Degrees')
+        .attr('type', 'range')
+        .attr('min', '0')
+        .attr('max', '360')
+        .attr('value', Degree)
+        .attr('step', '1')
+        
+        options.append('button')
+        .html('Rotate')
+        .on('click', function () {
+            Degree = document.getElementById("Rotate Degrees").value;
+            rotate(Degree);
+            options.html('Rotating ' + Degree + ' degrees');
+        });
+        
     },
 
     destroy: function () {
@@ -16,7 +33,7 @@ function (     $   ,  Canvas  , d3 ) {
     }
   };
 
-  function rotate( degrees ) {
+  function rotate( degrees ) { 
       var posX = 0;
       var posY = 0;
       Canvas.context.clearRect( 0, 0, Canvas.width, Canvas.height );
