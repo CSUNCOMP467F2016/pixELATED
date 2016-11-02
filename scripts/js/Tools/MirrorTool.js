@@ -36,7 +36,9 @@ function (     $   ,  d3 ,  Canvas  ) {
     }
     //invert the
     Canvas.context.scale( scaleX, scaleY );
+
     Canvas.context.drawImage( Canvas.image, posX, posY, Canvas.width, Canvas.height );
+    Canvas.redraw();
     Canvas.image.src = Canvas.canvas.toDataURL();
   }
 
