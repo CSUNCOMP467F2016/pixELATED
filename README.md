@@ -12,6 +12,8 @@ Hold 'shift' to drag and zoom canvas.
     1. Sometimes undoes mirror and rotate.  
     1. Likes to return to top left corner.  
   1. Mirror
+  1. Erase:
+    1. Still working on it, does not currently work.
 * Libraries:
   1. JQuery https://jquery.com/  
   1. D3 https://d3js.org/  

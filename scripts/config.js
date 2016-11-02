@@ -20,7 +20,8 @@ var require = {
     CropTool: 'js/Tools/CropTool',
     SatAndHueTool: 'js/Tools/SatAndHueTool',
     BriAndConTool: 'js/Tools/BriAndConTool',
-    ClearCanvasTool: 'js/Tools/ClearCanvasTool'
+    ClearCanvasTool: 'js/Tools/ClearCanvasTool',
+    EraseTool: 'js/Tools/EraseTool'
 
   },
   shim: {
