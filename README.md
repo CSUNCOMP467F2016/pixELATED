@@ -13,7 +13,7 @@ Hold 'shift' to drag and zoom canvas.
     1. Likes to return to top left corner.  
   1. Mirror
   1. Erase:
-    1. Still working on it, does not currently work.
+    1. Scrapped the previous erase tool and used brushtool instead.
   1. Crop:
     1. Double click toggles between moving the canvas and moving/resizing of crop tool.
     1. Still need to do the actual crop.

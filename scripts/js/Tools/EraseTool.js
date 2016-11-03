@@ -1,85 +1,93 @@
-// code obtained from http://stackoverflow.com/questions/25907163/html5-canvas-eraser-tool-without-overdraw-white-color
-
 define(['jquery', 'd3', 'Canvas'],
-function (     $   ,  d3 ,  Canvas    ) {
-  var lastX;
-  var lastY;
-  var strokeColor = "red";
-  var strokeWidth = 5;
-  var mouseX;
-  var mouseY;
-  var offsetX = Canvas.offsetLeft;
-  var offsetY = Canvas.offsetTop;
-  var isMouseDown = false;
-  var EraseTool = {
+function ($, d3, Canvas) {
+    //Really a mirror Tool currently
+    var EraseTool = {
 
-    make: function() {
-        Canvas.context.lineJoin = 'round';
-        Canvas.context.lineCap = 'round';
+        weight: 20,
+        sharpness: 1,
+        isDrawing: null,
+        lastPoint: null,
+        make: function () {
+            Canvas.context.lineJoin = 'round';
+            Canvas.context.lineCap = 'round';
 
-        $( '#visualcanvas' ).on( 'mousedown', EraseTool.mouseDown );
-        $( '#visualcanvas' ).on( 'mousemove', EraseTool.mouseMove );
-        $( '#visualcanvas' ).on( 'mouseup', EraseTool.mouseUp );
+            $('#visualcanvas').on('mousedown', EraseTool.mouseDown);
+            $('#visualcanvas').on('mousemove', EraseTool.mouseMove);
+            $('#visualcanvas').on('mouseup', EraseTool.mouseUp);
 
-        this.setupOptions();
-    },
-    destroy: function() {
-        $( '#visualcanvas' ).off( 'mousedown', EraseTool.mouseDown );
-        $( '#visualcanvas' ).off( 'mousemove', EraseTool.mouseMove );
-        $( '#visualcanvas' ).off( 'mouseup', EraseTool.mouseUp );
-    },
-    
-    setupOptions: function() {
-        
+            this.setupOptions();
+        },
+        destroy: function () {
+            $('#visualcanvas').off('mousedown', EraseTool.mouseDown);
+            $('#visualcanvas').off('mousemove', EraseTool.mouseMove);
+            $('#visualcanvas').off('mouseup', EraseTool.mouseUp);
+        },
+        setupOptions: function () {
+            var options = d3.select('#options');
 
-    },
-    handleMouseDown: function (e){
-      mouseX=parseInt(e.clientX-offsetX);
-      mouseY=parseInt(e.clientY-offsetY);
 
-      // Put your mousedown stuff here
-      lastX=mouseX;
-      lastY=mouseY;
-      isMouseDown=true;
-    },
+            options.append('input')
+              .attr('id', 'EraseToolWeight')
+              .attr('type', 'range')
+              .attr('min', '1')
+              .attr('max', '250')
+              .attr('value', EraseTool.weight)
+              .attr('step', '1')
+              .on('change', function () {
+                  EraseTool.weight = +this.value;
+              });
 
-    handleMouseUp: function (e){
-      mouseX=parseInt(e.clientX-offsetX);
-      mouseY=parseInt(e.clientY-offsetY);
+            options.append('input')
+              .attr('id', 'EraseToolSharpness')
+              .attr('type', 'range')
+              .attr('min', '0')
+              .attr('max', '1')
+              .attr('value', EraseTool.sharpness)
+              .attr('step', '0.05')
+              .on('change', function () {
+                  EraseTool.sharpness = +this.value * 0.99;
+              });
+        },
+        mouseDown: function (e) {
+            EraseTool.isDrawing = true;
+            EraseTool.lastPoint = {
+                x: ((e.clientX - Canvas.visual.offset.left - Canvas.visual.context.getTransform().e) / Canvas.visual.context.getTransform().a),
+                y: ((e.clientY - Canvas.visual.offset.top - Canvas.visual.context.getTransform().f) / Canvas.visual.context.getTransform().a)
+            };
+        },
+        mouseMove: function (e) {
+            if (!EraseTool.isDrawing) return;
+            var currentPoint = {
+                x: ((e.clientX - Canvas.visual.offset.left - Canvas.visual.context.getTransform().e) / Canvas.visual.context.getTransform().a),
+                y: ((e.clientY - Canvas.visual.offset.top - Canvas.visual.context.getTransform().f) / Canvas.visual.context.getTransform().a)
+            };
+            var dist = distanceBetween(EraseTool.lastPoint, currentPoint);
+            var angle = angleBetween(EraseTool.lastPoint, currentPoint);
 
-      // Put your mouseup stuff here
-      isMouseDown=false;
-    },
-    handleMouseOut: function (e){
-      mouseX=parseInt(e.clientX-offsetX);
-      mouseY=parseInt(e.clientY-offsetY);
+            for (var i = 0; i < dist; i += 5) {
 
-      // Put your mouseOut stuff here
-      isMouseDown=false;
-    },
-    handleMouseMove: function (e){
-      mouseX=parseInt(e.clientX-offsetX);
-      mouseY=parseInt(e.clientY-offsetY);
+                x = EraseTool.lastPoint.x + (Math.sin(angle) * i);
+                y = EraseTool.lastPoint.y + (Math.cos(angle) * i);
 
-    // Put your mousemove stuff here
-      if(isMouseDown){
-          Canvas.context.beginPath();
-         
-          Canvas.visual.context.globalCompositeOperation="destination-out";
-          Canvas.visual.context.arc(lastX,lastY,8,0,Math.PI*2,false);
-          Canvas.visual.context.fill();
+                Canvas.visual.context.clearRect(x - (EraseTool.weight / 2), y - (EraseTool.weight / 2), EraseTool.weight, EraseTool.weight);
+            }
 
-          lastX=mouseX;
-          lastY=mouseY;
-      }
+            EraseTool.lastPoint = currentPoint;
+        },
+        mouseUp: function () {
+            EraseTool.isDrawing = false;
+        }
+    };
+
+
+    function distanceBetween(point1, point2) {
+        return Math.sqrt(Math.pow(point2.x - point1.x, 2) + Math.pow(point2.y - point1.y, 2));
     }
-  };
+    function angleBetween(point1, point2) {
+        return Math.atan2(point2.x - point1.x, point2.y - point1.y);
+    }
+    
 
-  $("#visualcanvas").mousedown(function (e) { handleMouseDown(e); });
-  $("#visualcanvas").mousemove(function (e) { handleMouseMove(e); });
-  $("#visualcanvas").mouseup(function (e) { handleMouseUp(e); });
-  $("#visualcanvas").mouseout(function (e) { handleMouseOut(e); });
+    return EraseTool;
 
-  return EraseTool;
-
-} );
+});
