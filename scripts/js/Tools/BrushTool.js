@@ -18,7 +18,8 @@ function (     $   ,  d3 ,  Canvas ,  Farbtastic  ) {
 
       this.setupOptions();
     },
-    destroy: function() {
+    destroy: function () {
+        Canvas.image.src = Canvas.canvas.toDataURL();
       $( '#visualcanvas' ).off( 'mousedown', BrushTool.mouseDown );
       $( '#visualcanvas' ).off( 'mousemove', BrushTool.mouseMove );
       $( '#visualcanvas' ).off( 'mouseup', BrushTool.mouseUp );
@@ -82,7 +83,10 @@ function (     $   ,  d3 ,  Canvas ,  Farbtastic  ) {
         radgrad.addColorStop(1, 'rgba(' + BrushTool.colorRGB.r + ',' + BrushTool.colorRGB.g + ',' + BrushTool.colorRGB.b + ',0)' );
 
         Canvas.visual.context.fillStyle = radgrad;
-        Canvas.visual.context.fillRect(x-(BrushTool.weight/2), y-(BrushTool.weight/2), BrushTool.weight, BrushTool.weight );
+        Canvas.visual.context.fillRect(x - (BrushTool.weight / 2), y - (BrushTool.weight / 2), BrushTool.weight, BrushTool.weight);
+        Canvas.context.fillStyle = radgrad;
+        Canvas.context.fillRect(x - (BrushTool.weight / 2), y - (BrushTool.weight / 2), BrushTool.weight, BrushTool.weight);
+
       }
 
       BrushTool.lastPoint = currentPoint;

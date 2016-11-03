@@ -1,7 +1,7 @@
 
 define(  [ 'jquery', 'Canvas' , 'd3'],
 function (     $   ,  Canvas  , d3 ) {
-
+    var click = 0;
   var RotateTool = {
     make: function() {
       //Called when the user activates the tool
@@ -20,10 +20,14 @@ function (     $   ,  Canvas  , d3 ) {
         options.append('button')
         .html('Rotate')
         .on('click', function () {
-            resize();
+            if (click == 0) {
+                resize();
+               
+            }
             Degree = document.getElementById("Rotate Degrees").value;
             rotate(Degree);
             options.html('Rotating ' + Degree + ' degrees');
+            click++;
         });
         
     },

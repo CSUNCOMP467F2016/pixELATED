@@ -18,6 +18,7 @@ function ($, d3, Canvas) {
             this.setupOptions();
         },
         destroy: function () {
+            Canvas.image.src = Canvas.canvas.toDataURL();
             $('#visualcanvas').off('mousedown', EraseTool.mouseDown);
             $('#visualcanvas').off('mousemove', EraseTool.mouseMove);
             $('#visualcanvas').off('mouseup', EraseTool.mouseUp);
@@ -70,6 +71,8 @@ function ($, d3, Canvas) {
                 y = EraseTool.lastPoint.y + (Math.cos(angle) * i);
 
                 Canvas.visual.context.clearRect(x - (EraseTool.weight / 2), y - (EraseTool.weight / 2), EraseTool.weight, EraseTool.weight);
+                Canvas.context.clearRect(x - (EraseTool.weight / 2), y - (EraseTool.weight / 2), EraseTool.weight, EraseTool.weight);
+
             }
 
             EraseTool.lastPoint = currentPoint;

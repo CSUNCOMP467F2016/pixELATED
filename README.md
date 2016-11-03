@@ -4,16 +4,15 @@ Hold 'shift' to drag and zoom canvas.
 
 *  Tools:  
   1. Brush:  
-    1. Needs to save.  
+    x. Now properly saves on canvas.  
   1. Rotate:  
-    x. Rotation no longer crops. However, rotating multiple times makes the site laggy. 
+    x. Rotation no longer crops. Semi fixed(However, rotating multiple times makes the site laggy). 
     x. Added a scroll bar to select rotation degrees.
   1. Colorize:  
     1. Sometimes undoes mirror and rotate.  
     1. Likes to return to top left corner.  
   1. Mirror
-  1. Erase:
-    1. Scrapped the previous erase tool and used brushtool instead.
+
   1. Crop:
     1. Double click toggles between moving the canvas and moving/resizing of crop tool.
     1. Still need to do the actual crop.
