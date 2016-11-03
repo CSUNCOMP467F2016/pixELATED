@@ -20,6 +20,7 @@ function (     $   ,  Canvas  , d3 ) {
         options.append('button')
         .html('Rotate')
         .on('click', function () {
+            resize();
             Degree = document.getElementById("Rotate Degrees").value;
             rotate(Degree);
             options.html('Rotating ' + Degree + ' degrees');
@@ -41,6 +42,20 @@ function (     $   ,  Canvas  , d3 ) {
       Canvas.context.rotate( degrees * (Math.PI/180) );
       Canvas.context.drawImage( Canvas.image, -Canvas.width/2, -Canvas.height/2 );
       Canvas.image.src = Canvas.canvas.toDataURL();
+  }
+
+  function resize() {
+      Canvas.context.clearRect(0, 0, Canvas.width, Canvas.height);
+      var width = Canvas.width;
+      var height = Canvas.height;
+      var newSize = Math.sqrt((Canvas.width * Canvas.width) + (Canvas.height * Canvas.height))
+      Canvas.width = newSize;
+      Canvas.height = newSize;
+      Canvas.canvas.width = newSize;
+      Canvas.canvas.height = newSize;
+      Canvas.context.drawImage(Canvas.image, ((newSize - width) / 2), ((newSize - height) / 2));
+      Canvas.image.src = Canvas.canvas.toDataURL();
+
   }
 
   return RotateTool;

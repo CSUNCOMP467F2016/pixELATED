@@ -6,7 +6,7 @@ Hold 'shift' to drag and zoom canvas.
   1. Brush:  
     1. Needs to save.  
   1. Rotate:  
-    1. Rotation needs to resize canvas to fit (not cut the edges off).  
+    x. Rotation no longer crops. However, rotating multiple times makes the site laggy. 
     x. Added a scroll bar to select rotation degrees.
   1. Colorize:  
     1. Sometimes undoes mirror and rotate.  
