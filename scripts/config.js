@@ -7,6 +7,9 @@ var require = {
     d3: 'external/D3/d3.v4.min',
     Caman: 'external/CamanJS/caman.full.min',
     Farbtastic: 'external/Farbtastic/farbtastic12/farbtastic/farbtastic',
+    //Cropperjs: 'external/Cropperjs/dist/cropper.min',
+    Cropperjs: 'external/Cropperjs/dist/cropper',
+    Croppie: 'external/Croppie/croppie',
 
     Canvas: 'js/Canvas',
     ToolController: 'js/ToolController',
@@ -26,6 +29,6 @@ var require = {
   },
   shim: {
     'Caman': { exports: 'Caman' },
-    'Farbtastic': { deps: ['jquery'] }
+    'Farbtastic': { deps: ['jquery'],}
   }
 };
