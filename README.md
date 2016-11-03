@@ -14,9 +14,14 @@ Hold 'shift' to drag and zoom canvas.
   1. Mirror
   1. Erase:
     1. Still working on it, does not currently work.
+  1. Crop:
+    1. Double click toggles between moving the canvas and moving/resizing of crop tool.
+    1. Still need to do the actual crop.
 * Libraries:
   1. JQuery https://jquery.com/  
   1. D3 https://d3js.org/  
   1. Material Design Icons https://materialdesignicons.com/
   1. CamanJS http://camanjs.com/  
-  1. Farbtastic http://acko.net/blog/farbtastic-jquery-color-picker-plug-in/  
+  1. Farbtastic http://acko.net/blog/farbtastic-jquery-color-picker-plug-in/
+  1. Cropperjs https://github.com/fengyuanchen/cropperjs/blob/master/README.md#options
+
