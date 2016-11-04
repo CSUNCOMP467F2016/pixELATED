@@ -34,7 +34,8 @@ function (     $   ,  d3 ,  Canvas  ) {
       scaleY = -1;
       posY = -Canvas.height;
     }
-    //invert the
+      //invert the
+    Canvas.context.clearRect(0, 0, Canvas.width, Canvas.height);
     Canvas.context.scale( scaleX, scaleY );
 
     Canvas.context.drawImage( Canvas.image, posX, posY, Canvas.width, Canvas.height );
