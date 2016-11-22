@@ -24,7 +24,8 @@ var require = {
     SatAndHueTool: 'js/Tools/SatAndHueTool',
     BriAndConTool: 'js/Tools/BriAndConTool',
     ClearCanvasTool: 'js/Tools/ClearCanvasTool',
-    EraseTool: 'js/Tools/EraseTool'
+    EraseTool: 'js/Tools/EraseTool',
+    BucketTool: 'js/Tools/BucketTool'
 
   },
   shim: {
