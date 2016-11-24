@@ -4,9 +4,9 @@ function ($, d3, Canvas, Farbtastic) {
     var BucketTool = {
         colorHex: '#000',
         colorRGB: { r: 0, g: 0, b: 0 },
-        weight: 20,
-        sharpness: 1,
-        isDrawing: null,
+        bucketWeight: 20,
+        bucketSharpness: 1,
+        isUsingBucket: null,
         lastPoint: null,
         make: function () {
             Canvas.context.lineJoin = 'round';
@@ -38,29 +38,29 @@ function ($, d3, Canvas, Farbtastic) {
             });
 
             options.append('input')
-              .attr('id', 'BucketToolWeight')
+              .attr('id', 'BucketToolbucketWeight')
               .attr('type', 'range')
               .attr('min', '1')
               .attr('max', '250')
-              .attr('value', BucketTool.weight)
+              .attr('value', BucketTool.bucketWeight)
               .attr('step', '1')
               .on('change', function () {
-                  BucketTool.weight = +this.value;
+                  BucketTool.bucketWeight = +this.value;
               });
 
             options.append('input')
-              .attr('id', 'BucketToolSharpness')
+              .attr('id', 'BucketToolbucketSharpness')
               .attr('type', 'range')
               .attr('min', '0')
               .attr('max', '1')
-              .attr('value', BucketTool.sharpness)
+              .attr('value', BucketTool.bucketSharpness)
               .attr('step', '0.05')
               .on('change', function () {
-                  BucketTool.sharpness = +this.value * 0.99;
+                  BucketTool.bucketSharpness = +this.value * 0.99;
               });
         },
         mouseDown: function (e) {
-            BucketTool.isDrawing = true;
+            BucketTool.isUsingBucket = true;
 
 
             var currentPoint = {
@@ -69,27 +69,17 @@ function ($, d3, Canvas, Farbtastic) {
             };
             var options = d3.select('#options');
             var data = Canvas.context.getImageData(currentPoint.x,currentPoint.y, currentPoint.x+1,currentPoint.y+1);
-            options.html('Bucket Placeholder' + data.data[0] + '.');
+            options.html('Bucket Color' + data.data[0] + '.');
 
-            var radgrad = Canvas.visual.context.createRadialGradient(currentPoint.x, currentPoint.y, 0, currentPoint.x, currentPoint.y, 1);
-
-            radgrad.addColorStop(0, BucketTool.colorHex);
-            radgrad.addColorStop(BucketTool.sharpness, 'rgba(' + BucketTool.colorRGB.r + ',' + BucketTool.colorRGB.g + ',' + BucketTool.colorRGB.b + ',1)');
-            radgrad.addColorStop(1, 'rgba(' + BucketTool.colorRGB.r + ',' + BucketTool.colorRGB.g + ',' + BucketTool.colorRGB.b + ',0)');
-
-            Canvas.visual.context.fillStyle = radgrad;
-            Canvas.visual.context.fillRect(currentPoint.x - (BucketTool.weight / 2), currentPoint.y - (BucketTool.weight / 2), BucketTool.weight, BucketTool.weight);
-            Canvas.context.fillStyle = radgrad;
-            Canvas.context.fillRect(currentPoint.x - (BucketTool.weight / 2), currentPoint.y - (BucketTool.weight / 2), BucketTool.weight, BucketTool.weight);
-
+            pixelCheck(currentPoint.x,currentPoint.y, data.data[0]);
 
         },
         mouseMove: function (e) {
-            if (!BucketTool.isDrawing) return;
+            if (!BucketTool.isUsingBucket) return;
             
         },
         mouseUp: function () {
-            BucketTool.isDrawing = false;
+            BucketTool.isUsingBucket = false;
         }
     };
 
@@ -107,6 +97,29 @@ function ($, d3, Canvas, Farbtastic) {
             g: parseInt(result[2], 16),
             b: parseInt(result[3], 16)
         } : null;
+    }
+
+    function pixelCheck(pointx, pointy, data) {
+        if (pointx >= 0 && pointy >= 0 && pointx < Canvas.width && pointy < Canvas.height) {
+            var checkData = Canvas.context.getImageData(pointx, pointy, pointx + 1, pointy + 1);
+            if (data === checkData.data[0]) {
+                pixelCheck(pointx + 1, pointy, data);
+                pixelCheck(pointx - 1, pointy, data);
+                pixelCheck(pointx, pointy + 1, data);
+                pixelCheck(pointx, pointy - 1, data);
+                var radgrad = Canvas.visual.context.createRadialGradient(pointx, pointy, 0, pointx, pointy, 1);
+  
+                radgrad.addColorStop(0, BucketTool.colorHex);
+                radgrad.addColorStop(0, 'rgba(' + BucketTool.colorRGB.r + ',' + BucketTool.colorRGB.g + ',' + BucketTool.colorRGB.b + ',1)');
+                radgrad.addColorStop(1, 'rgba(' + BucketTool.colorRGB.r + ',' + BucketTool.colorRGB.g + ',' + BucketTool.colorRGB.b + ',0)');
+
+                Canvas.visual.context.fillStyle = radgrad;
+                Canvas.visual.context.fillRect(pointx - (BucketTool.bucketWeight / 2), pointy - (BucketTool.bucketWeight / 2), BucketTool.bucketWeight, BucketTool.bucketWeight);
+                Canvas.context.fillStyle = radgrad;
+                Canvas.context.fillRect(pointx - (BucketTool.bucketWeight / 2), pointy - (BucketTool.bucketWeight / 2), BucketTool.bucketWeight, BucketTool.bucketWeight);
+
+            }
+        }  
     }
 
     return BucketTool;
