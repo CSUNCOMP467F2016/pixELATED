@@ -69,9 +69,9 @@ function ($, d3, Canvas, Farbtastic) {
             };
             var options = d3.select('#options');
             var data = Canvas.context.getImageData(currentPoint.x,currentPoint.y, currentPoint.x+1,currentPoint.y+1);
-            options.html('Bucket Color' + data.data[0] + '.');
+            options.html('Bucket Color' + data.data[0] + ',' + data.data[1] + ',' + data.data[2] + ',' + data.data[3] + '.');
 
-            pixelCheck(currentPoint.x,currentPoint.y, data.data[0]);
+            pixelCheck(currentPoint.x,currentPoint.y, data);
 
         },
         mouseMove: function (e) {
@@ -100,15 +100,11 @@ function ($, d3, Canvas, Farbtastic) {
     }
 
     function pixelCheck(pointx, pointy, data) {
-        if (pointx >= 0 && pointy >= 0 && pointx < Canvas.width && pointy < Canvas.height) {
+        if (pointx > 0 && pointy > 0 && pointx < Canvas.width && pointy < Canvas.height) {
             var checkData = Canvas.context.getImageData(pointx, pointy, pointx + 1, pointy + 1);
-            if (data === checkData.data[0]) {
-                pixelCheck(pointx + 1, pointy, data);
-                pixelCheck(pointx - 1, pointy, data);
-                pixelCheck(pointx, pointy + 1, data);
-                pixelCheck(pointx, pointy - 1, data);
+            if ((data[0] === checkData[0]) && (data[1] === checkData[1]) && (data[2] === checkData[2])) {
                 var radgrad = Canvas.visual.context.createRadialGradient(pointx, pointy, 0, pointx, pointy, 1);
-  
+
                 radgrad.addColorStop(0, BucketTool.colorHex);
                 radgrad.addColorStop(0, 'rgba(' + BucketTool.colorRGB.r + ',' + BucketTool.colorRGB.g + ',' + BucketTool.colorRGB.b + ',1)');
                 radgrad.addColorStop(1, 'rgba(' + BucketTool.colorRGB.r + ',' + BucketTool.colorRGB.g + ',' + BucketTool.colorRGB.b + ',0)');
@@ -118,6 +114,11 @@ function ($, d3, Canvas, Farbtastic) {
                 Canvas.context.fillStyle = radgrad;
                 Canvas.context.fillRect(pointx - (BucketTool.bucketWeight / 2), pointy - (BucketTool.bucketWeight / 2), BucketTool.bucketWeight, BucketTool.bucketWeight);
 
+                pixelCheck(pointx + 1, pointy, data);
+                pixelCheck(pointx - 1, pointy, data);
+                pixelCheck(pointx, pointy + 1, data);
+                pixelCheck(pointx, pointy - 1, data);
+                
             }
         }  
     }
