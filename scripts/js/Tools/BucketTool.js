@@ -61,28 +61,32 @@ function ($, d3, Canvas, Farbtastic) {
         },
         mouseDown: function (e) {
             BucketTool.isDrawing = true;
-        },
-        mouseMove: function (e) {
-            if (!BucketTool.isDrawing) return;
+
+
             var currentPoint = {
                 x: ((e.clientX - Canvas.visual.offset.left - Canvas.visual.context.getTransform().e) / Canvas.visual.context.getTransform().a),
                 y: ((e.clientY - Canvas.visual.offset.top - Canvas.visual.context.getTransform().f) / Canvas.visual.context.getTransform().a)
             };
+            var options = d3.select('#options');
+            var data = Canvas.context.getImageData(currentPoint.x,currentPoint.y, currentPoint.x+1,currentPoint.y+1);
+            options.html('Bucket Placeholder' + data.data[0] + '.');
 
-                
+            var radgrad = Canvas.visual.context.createRadialGradient(currentPoint.x, currentPoint.y, 0, currentPoint.x, currentPoint.y, 1);
 
-                var radgrad = Canvas.visual.context.createRadialGradient(currentPoint.x, currentPoint.y, BucketTool.weight / 4, currentPoint.x, currentPoint.y, BucketTool.weight / 2);
+            radgrad.addColorStop(0, BucketTool.colorHex);
+            radgrad.addColorStop(BucketTool.sharpness, 'rgba(' + BucketTool.colorRGB.r + ',' + BucketTool.colorRGB.g + ',' + BucketTool.colorRGB.b + ',1)');
+            radgrad.addColorStop(1, 'rgba(' + BucketTool.colorRGB.r + ',' + BucketTool.colorRGB.g + ',' + BucketTool.colorRGB.b + ',0)');
 
-                radgrad.addColorStop(0, BucketTool.colorHex);
-                radgrad.addColorStop(BucketTool.sharpness, 'rgba(' + BucketTool.colorRGB.r + ',' + BucketTool.colorRGB.g + ',' + BucketTool.colorRGB.b + ',1)');
-                radgrad.addColorStop(1, 'rgba(' + BucketTool.colorRGB.r + ',' + BucketTool.colorRGB.g + ',' + BucketTool.colorRGB.b + ',0)');
-
-                Canvas.visual.context.fillStyle = radgrad;
-                Canvas.visual.context.fillRect(currentPoint.x - (BucketTool.weight / 2), currentPoint.y - (BucketTool.weight / 2), BucketTool.weight, BucketTool.weight);
-                Canvas.context.fillStyle = radgrad;
-                Canvas.context.fillRect(currentPoint.x - (BucketTool.weight / 2), currentPoint.y - (BucketTool.weight / 2), BucketTool.weight, BucketTool.weight);
+            Canvas.visual.context.fillStyle = radgrad;
+            Canvas.visual.context.fillRect(currentPoint.x - (BucketTool.weight / 2), currentPoint.y - (BucketTool.weight / 2), BucketTool.weight, BucketTool.weight);
+            Canvas.context.fillStyle = radgrad;
+            Canvas.context.fillRect(currentPoint.x - (BucketTool.weight / 2), currentPoint.y - (BucketTool.weight / 2), BucketTool.weight, BucketTool.weight);
 
 
+        },
+        mouseMove: function (e) {
+            if (!BucketTool.isDrawing) return;
+            
         },
         mouseUp: function () {
             BucketTool.isDrawing = false;
