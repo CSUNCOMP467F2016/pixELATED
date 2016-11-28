@@ -17,7 +17,7 @@ Hold 'shift' to drag and zoom canvas.
     1. Double click toggles between moving the canvas and moving/resizing of crop tool.
     1. Still need to do the actual crop.
   1. Bucket:
-    1. Features glitches, memory issues. If anyone has any idea how to handle this problem, let me know. If not, I will attempt to change the algorithm.
+    1. Stops working when zoom is used even once. Sensitivity not yet implemented.
 * Libraries:
   1. JQuery https://jquery.com/  
   1. D3 https://d3js.org/  

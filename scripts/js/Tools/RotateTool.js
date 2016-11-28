@@ -3,39 +3,48 @@ define(  [ 'jquery', 'Canvas' , 'd3'],
 function (     $   ,  Canvas  , d3 ) {
     var click = 0;
   var RotateTool = {
-    make: function() {
-      //Called when the user activates the tool
-        var options = d3.select('#options');
-        var Degree = 0;
-        
-
-        options.append('input')
-        .attr('id', 'Rotate Degrees')
-        .attr('type', 'range')
-        .attr('min', '0')
-        .attr('max', '360')
-        .attr('value', Degree)
-        .attr('step', '1')
-        
-        options.append('button')
-        .html('Rotate')
-        .on('click', function () {
-            if (click == 0) {
-                resize();
-               
-            }
-            Degree = document.getElementById("Rotate Degrees").value;
-            rotate(Degree);
-            options.html('Rotating ' + Degree + ' degrees');
-            click++;
-        });
+     make: function () {
+         this.setupOptions();
         
     },
 
     destroy: function () {
         //Make sure our canvas scale is where it began
         Canvas.context.scale(1, 1);
-    }
+    },
+      setupOptions: function () {
+          //Called when the user activates the tool
+      var options = d3.select('#options');
+      var Degree = 0;
+        
+      options.append('text')
+        .text('Select Rotation Angle [0-360].\nCurrently Selected Angle ['+ Degree + ']');
+
+      options.append('input')
+      .attr('id', 'Rotate Degrees')
+      .attr('type', 'range')
+      .attr('min', '0')
+      .attr('max', '360')
+      .attr('value', Degree)
+      .attr('step', '1')
+      .on('change', function () {
+          Degree = +this.value;
+          options.append('text')
+            .text('Currently Selected Angle [' + Degree + ']\n');
+      });
+        
+      options.append('button')
+      .html('Rotate')
+      .on('click', function () {
+          if (click == 0) {
+              resize();
+               
+          }
+          rotate(Degree);
+          options.html('Rotating ' + Degree + ' degrees');
+          click++;
+      });
+  }
   };
 
   function rotate( degrees ) { 

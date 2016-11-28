@@ -26,6 +26,8 @@ function ($, d3, Canvas) {
         setupOptions: function () {
             var options = d3.select('#options');
 
+            options.append('text')
+                          .text('Select Eraser Weight');
 
             options.append('input')
               .attr('id', 'EraseToolWeight')
@@ -37,6 +39,9 @@ function ($, d3, Canvas) {
               .on('change', function () {
                   EraseTool.weight = +this.value;
               });
+
+            options.append('text')
+                          .text('Select Eraser Sharpness');
 
             options.append('input')
               .attr('id', 'EraseToolSharpness')

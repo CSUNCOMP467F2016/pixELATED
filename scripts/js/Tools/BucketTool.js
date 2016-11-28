@@ -4,8 +4,7 @@ function ($, d3, Canvas, Farbtastic) {
     var BucketTool = {
         colorHex: '#000',
         colorRGB: { r: 0, g: 0, b: 0 },
-        bucketWeight: 20,
-        bucketSharpness: 1,
+        bucketSensitivity: 0,
         isUsingBucket: null,
         lastPoint: null,
         make: function () {
@@ -26,38 +25,38 @@ function ($, d3, Canvas, Farbtastic) {
         },
         setupOptions: function () {
             var options = d3.select('#options');
+            options.html('You have selected Bucket Tool.\n');
+
+            options.append('text')
+              .text('Select Bucket Color');
+
             options.append('div')
               .attr('id', 'BucketToolColorPicker')
               .style('display', 'block')
               .style('width', '80%')
               .style('margin', 'auto');
 
+          
+
             $('#BucketToolColorPicker').farbtastic(function () {
                 BucketTool.colorHex = this.color;
                 BucketTool.colorRGB = hexToRgb(BucketTool.colorHex);
             });
 
-            options.append('input')
-              .attr('id', 'BucketToolbucketWeight')
-              .attr('type', 'range')
-              .attr('min', '1')
-              .attr('max', '250')
-              .attr('value', BucketTool.bucketWeight)
-              .attr('step', '1')
-              .on('change', function () {
-                  BucketTool.bucketWeight = +this.value;
-              });
+            options.append('text')
+                .text('Select Color Sensitivity.');
 
             options.append('input')
-              .attr('id', 'BucketToolbucketSharpness')
+              .attr('id', 'BucketToolSensitivity')
               .attr('type', 'range')
               .attr('min', '0')
-              .attr('max', '1')
-              .attr('value', BucketTool.bucketSharpness)
-              .attr('step', '0.05')
+              .attr('max', '255')
+              .attr('value', BucketTool.bucketSensitivity)
+              .attr('step', '1')
               .on('change', function () {
-                  BucketTool.bucketSharpness = +this.value * 0.99;
+                  BucketTool.bucketSensitivity = +this.value;
               });
+
         },
         mouseDown: function (e) {
             BucketTool.isUsingBucket = true;
@@ -71,14 +70,7 @@ function ($, d3, Canvas, Farbtastic) {
             var data = Canvas.context.getImageData(currentPoint.x,currentPoint.y, currentPoint.x+1,currentPoint.y+1);
             options.html('Bucket Color' + data.data[0] + ',' + data.data[1] + ',' + data.data[2] + ',' + data.data[3] + '.');
 
-            var radgrad = Canvas.visual.context.createRadialGradient(currentPoint.x, currentPoint.y, 0, currentPoint.x, currentPoint.y, 1);
-
-            radgrad.addColorStop(0, BucketTool.colorHex);
-            radgrad.addColorStop(1, 'rgba(' + BucketTool.colorRGB.r + ',' + BucketTool.colorRGB.g + ',' + BucketTool.colorRGB.b + ',1)');
-            radgrad.addColorStop(1, 'rgba(' + BucketTool.colorRGB.r + ',' + BucketTool.colorRGB.g + ',' + BucketTool.colorRGB.b + ',1)');
-
-
-            pixelCheck(currentPoint.x,currentPoint.y, data.data[0],data.data[1],data.data[2],radgrad);
+            pixelCheck(currentPoint.x,currentPoint.y, data.data[0],data.data[1],data.data[2]);
             Canvas.image.src = Canvas.canvas.toDataURL();
         },
         mouseMove: function (e) {
@@ -106,19 +98,18 @@ function ($, d3, Canvas, Farbtastic) {
         } : null;
     }
 
-    function pixelCheck(pointx, pointy, data0, data1, data2,radgrad) {
-        if (pointx > 0 && pointy > 0 && pointx < Canvas.width && pointy < Canvas.height) {
+    function pixelCheck(pointx, pointy, data0, data1, data2) {
+        if (pointx >= 0 && pointy >= 0 && pointx < Canvas.width && pointy < Canvas.height) {
             var data = Canvas.context.getImageData(pointx, pointy, pointx + 1, pointy + 1);
             if ((data0 === data.data[0]) && (data1 === data.data[1]) && (data2 === data.data[2])) {
                 
-
-                Canvas.context.fillStyle = radgrad;
+                Canvas.context.fillStyle = BucketTool.colorHex;
                 Canvas.context.fillRect(pointx , pointy , 1, 1);
 
-                pixelCheck(pointx + 1, pointy, data0, data1, data2, radgrad);
-                pixelCheck(pointx - 1, pointy, data0, data1, data2, radgrad);
-                pixelCheck(pointx, pointy + 1, data0, data1, data2, radgrad);
-                pixelCheck(pointx, pointy - 1, data0, data1, data2, radgrad);
+                pixelCheck(pointx + 1, pointy, data0, data1, data2);
+                pixelCheck(pointx - 1, pointy, data0, data1, data2);
+                pixelCheck(pointx, pointy + 1, data0, data1, data2);
+                pixelCheck(pointx, pointy - 1, data0, data1, data2);
                 
             }
         }  
