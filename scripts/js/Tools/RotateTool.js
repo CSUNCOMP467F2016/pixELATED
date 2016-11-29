@@ -22,15 +22,13 @@ function (     $   ,  Canvas  , d3 ) {
 
       options.append('input')
       .attr('id', 'Rotate Degrees')
-      .attr('type', 'range')
+      .attr('type', 'number')
       .attr('min', '0')
       .attr('max', '360')
       .attr('value', Degree)
       .attr('step', '1')
       .on('change', function () {
-          Degree = +this.value;
-          options.append('text')
-            .text('Currently Selected Angle [' + Degree + ']\n');
+          Degree = this.value;
       });
         
       options.append('button')

@@ -44,17 +44,17 @@ function ($, d3, Canvas, Farbtastic) {
             });
 
             options.append('text')
-                .text('Select Color Sensitivity.');
+                .text('Select Color Sensitivity. [0-255]');
 
             options.append('input')
               .attr('id', 'BucketToolSensitivity')
-              .attr('type', 'range')
+              .attr('type', 'value')
               .attr('min', '0')
               .attr('max', '255')
               .attr('value', BucketTool.bucketSensitivity)
               .attr('step', '1')
               .on('change', function () {
-                  BucketTool.bucketSensitivity = +this.value;
+                  BucketTool.bucketSensitivity = this.value;
               });
 
         },
@@ -101,7 +101,7 @@ function ($, d3, Canvas, Farbtastic) {
     function pixelCheck(pointx, pointy, data0, data1, data2) {
         if (pointx >= 0 && pointy >= 0 && pointx < Canvas.width && pointy < Canvas.height) {
             var data = Canvas.context.getImageData(pointx, pointy, pointx + 1, pointy + 1);
-            if ((data0 === data.data[0]) && (data1 === data.data[1]) && (data2 === data.data[2])) {
+            if (Math.abs(data0 - data.data[0]) <= BucketTool.bucketSensitivity && Math.abs(data1 - data.data[1]) <= BucketTool.bucketSensitivity && Math.abs(data2 - data.data[2]) <= BucketTool.bucketSensitivity) {
                 
                 Canvas.context.fillStyle = BucketTool.colorHex;
                 Canvas.context.fillRect(pointx , pointy , 1, 1);
