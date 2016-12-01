@@ -12,13 +12,17 @@ define(  [ 'jquery', 'd3', 'Canvas', 'Caman' ],
 function (     $   ,  d3 ,Canvas ,  Caman ) {
 
   var ColorizeTool = {
+	Square: 0,
+	colorForSquare: '#000000',
     strength: 0,
     red: 0,
     green: 0,
     blue: 0,
     make: function() {
       //this.myFunction();
+	  this.myCircle();
       this.setupOptions();
+	  
     },
     destroy: function() {
       //Called when the user activates another tool
@@ -52,8 +56,13 @@ function (     $   ,  d3 ,Canvas ,  Caman ) {
     	greenstring = ColorizeTool.from10To16( ColorizeTool.green );
     	bluestring = ColorizeTool.from10To16( ColorizeTool.blue );
 
-    	var mys = "#" + redstring + greenstring + bluestring;
-
+    	//var mys = "#" + redstring + greenstring + bluestring;
+		ColorizeTool.colorForSquare = "#" + redstring + greenstring + bluestring;
+		
+		ColorizeTool.Square.transition().style('background', ColorizeTool.colorForSquare);
+		
+		//d3.select('#options').transition().style('background', ColorizeTool.colorForSquare);
+		//ColorizeTool.myCircle();
     	//document.getElementById("myDIV").style.backgroundColor = mys;
     	Caman( Canvas.visual.canvas, function () {
       	// manipulate image here
@@ -143,10 +152,19 @@ function (     $   ,  d3 ,Canvas ,  Caman ) {
 
     	return result;
     },
+	myCircle: function(){
+	//var var1 = d3.select('#options');	
+	//var1.append("p").text("hello");
+	ColorizeTool.Square = d3.select('#options').append('svg')
+  .attr('width', 100)
+  .attr('height', 100)
+  .style('background', ColorizeTool.colorForSquare);
+	},
     setupOptions: function() {
+		
       var options = d3.select( '#options' );
       //Red Slider
-      options.append( 'input' )
+      options.append("p").text("Red ").append( 'input' )
         .attr( 'id', 'redColorizeTool' )
         .attr( 'type', 'range' )
         .attr( 'min', '0' )
@@ -158,43 +176,44 @@ function (     $   ,  d3 ,Canvas ,  Caman ) {
           ColorizeTool.sliderChange( val, 'red' );
         } );
       //Green Slider
-      options.append( 'input' )
+      options.append("p").text(function() { return "Green "; }).append( 'input' )
         .attr( 'id', 'greenColorizeTool' )
         .attr( 'type', 'range' )
         .attr( 'min', '0' )
         .attr( 'max', '255' )
         .attr( 'value', '0' )
         .attr( 'step', '1' )
-        .on( 'change', function() {
+        .on( 'input', function() {
           var val = +this.value;
           ColorizeTool.sliderChange( val, 'green' );
         } );
       //Blue Slider
-      options.append( 'input' )
+      options.append("p").text("Blue ").append( 'input' )
         .attr( 'id', 'blueColorizeTool' )
         .attr( 'type', 'range' )
         .attr( 'min', '0' )
         .attr( 'max', '255' )
         .attr( 'value', '0' )
         .attr( 'step', '1' )
-        .on( 'change', function() {
+        .on( 'input', function() {
           var val = +this.value;
           ColorizeTool.sliderChange( val, 'blue' );
         } );
       //Strength Slider
-      options.append( 'input' )
+      options.append("p").text("Strength ").append( 'input' )
         .attr( 'id', 'strengthColorizeTool' )
         .attr( 'type', 'range' )
         .attr( 'min', '0' )
-        .attr( 'max', '255' )
+        .attr( 'max', '100' )
         .attr( 'value', '0' )
         .attr( 'step', '1' )
-        .on( 'change', function() {
+        .on( 'input', function() {
           var val = +this.value;
           ColorizeTool.sliderChange( val, 'strength' );
         } );
 
     }
+	
   };
 
   return ColorizeTool;

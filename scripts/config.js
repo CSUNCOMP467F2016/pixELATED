@@ -10,10 +10,12 @@ var require = {
     //Cropperjs: 'external/Cropperjs/dist/cropper.min',
     Cropperjs: 'external/Cropperjs/dist/cropper',
     Croppie: 'external/Croppie/croppie',
+    Pako: 'external/Pako/pako_inflate.min',
 
     Canvas: 'js/Canvas',
     ToolController: 'js/ToolController',
     Upload: 'js/Upload',
+    PNGDecoder: 'js/PNGDecoder',
 
     //tools
     BrushTool: 'js/Tools/BrushTool' ,

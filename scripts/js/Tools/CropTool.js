@@ -4,6 +4,7 @@ define(  [ 'jquery', 'Canvas', 'd3' , 'Cropperjs' ],
         var cropper;
         var CropTool = {
             make: function() {
+
                 var image = document.getElementById( 'visualcanvas' );
                 cropper = new Cropper(image, {
                     aspectRatio: 16 / 9,

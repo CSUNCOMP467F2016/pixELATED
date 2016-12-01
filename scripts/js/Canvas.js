@@ -122,6 +122,9 @@ function (    $    ,  d3  ) {
       if( typeof src === 'string' || src instanceof String ) {
         this.image.src = src;
       }
+      else if( src.nodeName && src.nodeName.toLowerCase() === 'canvas' ) {
+        this.image.src = src.toDataURL();
+      }
       else {
         this.image = src;
       }
