@@ -27,7 +27,8 @@ var require = {
     BriAndConTool: 'js/Tools/BriAndConTool',
     ClearCanvasTool: 'js/Tools/ClearCanvasTool',
     EraseTool: 'js/Tools/EraseTool',
-    BucketTool: 'js/Tools/BucketTool'
+    BucketTool: 'js/Tools/BucketTool',
+	NoiseTool: 'js/Tools/NoiseTool'
 
   },
   shim: {
