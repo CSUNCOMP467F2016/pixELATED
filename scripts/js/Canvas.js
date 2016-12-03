@@ -32,7 +32,25 @@ function (    $    ,  d3  ) {
         .attr( 'height', this.visual.height + 'px' );
       this.visual.canvas = document.getElementById( 'visualcanvas' );
       this.visual.context = this.visual.canvas.getContext( '2d' );
-      this.visual.offset = $( '#visualcanvas').offset();
+      this.visual.offset = $( '#visualcanvas' ).offset();
+
+      var resizeEnd;
+      window.addEventListener( 'resize', (function( id ) { return function() {
+
+        clearTimeout( resizeEnd );
+        resizeEnd = setTimeout( function() {
+          Canvas.visual.width = $( '#' + id ).width();
+          Canvas.visual.height = $( '#' + id ).height();
+          d3.select( '#visualcanvas' )
+            .attr( 'width', Canvas.visual.width + 'px' )
+            .attr( 'height', Canvas.visual.height + 'px' );
+          Canvas.visual.scale = 1;
+          Canvas.visual.offset = $( '#visualcanvas' ).offset();
+          Canvas.trackTransforms();
+          d3.select( '#scaleAndCoords' ).html( '100%' );
+          Canvas.refresh();
+        }, 100 );
+      } } )(id) );
       //Make it pixelated
       this.visual.context.mozImageSmoothingEnabled = false;
       this.visual.context.imageSmoothingEnabled = false;

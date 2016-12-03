@@ -238,10 +238,10 @@ function (  Pako  ) {
       dataindex += 1;
       filter = data[ y * ((width*bands) + 1) ];
       for( var x = 1; x < width + 1; x++ ) {
-        imgData.data[ imgdataindex + 0 ] = data[ dataindex + 0 ]; //Red
-        imgData.data[ imgdataindex + 1 ] = data[ dataindex + 1 ]; //Blue
-        imgData.data[ imgdataindex + 2 ] = data[ dataindex + 2 ]; //Green
-        imgData.data[ imgdataindex + 3 ] = ( bands == 4 ) ? data[ dataindex + 3 ] : 255; //Alpha
+        imgData.data[ imgdataindex + 0 ] = unfilter( data, dataindex + 0, filter, width, height, bands ); //Red
+        imgData.data[ imgdataindex + 1 ] = unfilter( data, dataindex + 1, filter, width, height, bands ); //Blue
+        imgData.data[ imgdataindex + 2 ] = unfilter( data, dataindex + 2, filter, width, height, bands ); //Green
+        imgData.data[ imgdataindex + 3 ] = ( bands == 4 ) ? unfilter( data, dataindex + 3, filter, width, height, bands ) : 255; //Alpha
 
         dataindex += bands;
         imgdataindex += 4;
@@ -266,6 +266,90 @@ function (  Pako  ) {
 
   function intToString( byte ) {
     return String.fromCharCode( byte );
+  }
+
+  function unfilter( data, index, filter, width, height, bands ) {
+    //x	the byte being filtered;
+    //a	the byte corresponding to x in the pixel immediately before the pixel containing x (or the byte immediately before x, when the bit depth is less than 8);
+    //b	the byte corresponding to x in the previous scanline;
+    //c	the byte corresponding to b in the pixel immediately before the pixel containing b (or the byte immediately before b, when the bit depth is less than 8).
+    var bytesPerScanline = ( width * bands ) + 1;
+
+    switch( filter ) {
+      case 0:
+        break;
+      case 1: //Recon(x) = Filt(x) + Recon(a)
+          data[index] = ( data[index] + getA(index) ) % 256;
+        break;
+      case 2: //Recon(x) = Filt(x) + Recon(b)
+          data[index] = ( data[index] + getB(index) ) % 256;
+        break;
+      case 3: //Filt(x) + floor((Recon(a) + Recon(b)) / 2)
+          data[index] = ( data[index] + Math.floor( ( getA(index) + getB(index) ) / 2 ) ) % 256;
+        break;
+      case 4:
+          data[index] = ( data[index] + paethFilter( getA(index), getB(index), getC(index) ) ) % 256;
+        break;
+      default:
+        throw new Error( 'Invalid filter algorithm.' );
+    }
+
+    return data[index];
+
+    function getA( i, getI ) {
+      var a = -1;
+      var scanlineNum = Math.floor( i / bytesPerScanline );
+      var aScanlineNum = Math.floor( ( i - bands ) / bytesPerScanline );
+      //Make sure a is on the same scan line and is not the filter bit
+      if( scanlineNum == aScanlineNum ) {
+        a = i - bands;
+      }
+
+      if( getI ) {
+        return a;
+      }
+
+      if( a == -1 ) a = 0;
+      else a = data[a];
+
+      return a;
+    }
+
+    function getB( i, getI ) {
+      var b = -1;
+      if( i - bytesPerScanline > 0 ) {
+        b = i - bytesPerScanline;
+      }
+
+      if( getI ) {
+        return b;
+      }
+
+      if( b == -1 ) b = 0;
+      else b = data[b];
+
+      return b;
+    }
+
+    function getC( i ) { //this is the getA of getB
+      var a = getA( i, true );
+      if( a == -1 ) return 0;
+      return getB( a );
+    }
+
+    //Finds the value of the closest to a + b -c
+    function paethFilter( a, b, c ) {
+      var Pr;
+      var p = a + b - c
+      var pa = Math.abs(p - a)
+      var pb = Math.abs(p - b)
+      var pc = Math.abs(p - c)
+      if( pa <= pb && pa <= pc ) Pr = a;
+      else if( pb <= pc ) Pr = b;
+      else Pr = c;
+      return Pr;
+    }
+
   }
 
   return PNGDecoder;
