@@ -9,11 +9,14 @@ function (  Canvas ,  ToolController ,  Upload ,  PNGDecoder  ) {
 
       PNGDecoder(
         //'resources/PNGTest.png',
-        //'http://i.imgur.com/hBrzS9O.png',
-        //'http://i.imgur.com/4BTadWF.png', //Dinosaurs
-        'http://i.imgur.com/6MCIS.png', //Snowy Mountain
-        //'https://i.imgur.com/MJma1zV.png',
-        //'http://i.imgur.com/7f3AnsG.png',
+        'http://i.imgur.com/hBrzS9O.png', //[x] Gears PLTE
+        //'http://i.imgur.com/4BTadWF.png', //[x] Dinosaurs F01
+        //'http://i.imgur.com/6MCIS.png', //[] Snowy Mountain F
+        //'https://i.imgur.com/MJma1zV.png', //[] Autumn RGBA
+        //'http://i.imgur.com/7f3AnsG.png', //[x] Pixel Warrior PLTE
+        //'http://i.imgur.com/EPBbVXu.jpg', //[] cavern Road RGBA Alpha
+        //'http://i.imgur.com/BtqUiXp.jpg', //[] Hashbrown RGAB Alpha
+        //'http://i.imgur.com/Ttwkeg7.jpg', //[] Skeleton Bird iCCP?
         function( PNGcanvas ) {
           Canvas.setImage( PNGcanvas );
         }

@@ -29,16 +29,19 @@ function (  Pako  ) {
     var i = { i: 0 };
     var inflator = new Pako.Inflate();
     var chunks = [];
+    var palette;
     //Check if file is a valid PNG
     if( getSignature( data, i ) ) {
       //Get the header
       var header = getHeader( data, i );
+      //console.log( header );
       //Get all the chunks
       while( i.i < data.length ) {
         chunks.push( getNextChunk( data, i ) );
       }
       //Put all the data chunks into our decompressor
       for( var j = 0; j < chunks.length; j++ ) {
+        //console.log( chunks[j].type.full );
         if( chunks[j].type.full == 'IDAT' ) {
           //Our inflator needs to know which chunk is last
           if( j != chunks.length - 1 && chunks[j+1].type.full == 'IEND' ) {
@@ -48,13 +51,16 @@ function (  Pako  ) {
             inflator.push( chunks[j].data, false );
           }
         }
+        else if( chunks[j].type.full == 'PLTE' ) {
+          palette = usePalette( chunks[j] );
+        }
       }
       if( inflator.err ) {
         console.log( inflator.msg );
       }
 
       var output = inflator.result;
-      return makeCanvasFromInflatedFullIDAT( header, output );
+      return makeCanvasFromInflatedFullIDAT( header, output, palette );
     }
     else {
       throw new Error( 'File is not a valid PNG' );
@@ -181,6 +187,15 @@ function (  Pako  ) {
     return header;
   }
 
+  function usePalette( plte ) {
+    var palette = [];
+    if( plte.data.length % 3 != 0 ) return;
+    for( var i = 0; i < plte.data.length; i += 3 ) {
+      palette.push( { r: plte.data[i], g: plte.data[i+1], b: plte.data[i+2] } );
+    }
+    return palette;
+  }
+
   function getNextChunk( data, i ) {
     var chunk = {
       length: null,
@@ -217,12 +232,9 @@ function (  Pako  ) {
   }
 
   //Takes in decompressed IDAT data, unfilters it, draws it to a canvas and returns the canvas.
-  function makeCanvasFromInflatedFullIDAT( header, data ) {
+  function makeCanvasFromInflatedFullIDAT( header, data, palette ) {
     var width = header.data.width;
     var height = header.data.height;
-    var filter;
-    var dataindex = 0;
-    var imgdataindex = 0;
 
     var canvas = document.createElement( 'canvas' );
     canvas.width = width;
@@ -230,21 +242,54 @@ function (  Pako  ) {
 
     var context = canvas.getContext( '2d' );
     var imgData = context.createImageData( width, height );
-    var bands = 3;
+    var bands = 1;
+    switch( header.data.colortype ) {
+      case 0: bands = 1; break; //greyscale
+      case 2: bands = 3; break; //RGB
+      case 3: bands = 0; break; //PLTE
+      case 4: bands = 2; break; //greyscale A
+      case 6: bands = 4; break; //RGBA
+    }
+    //console.log( bands + ' bands' );
 
-    for( var y = 0; y < height; y++ ) {
-      //3 because 3 bands (RGB)
-      //1 because the first byte of each scanline indicates its filter
-      dataindex += 1;
-      filter = data[ y * ((width*bands) + 1) ];
-      for( var x = 1; x < width + 1; x++ ) {
-        imgData.data[ imgdataindex + 0 ] = unfilter( data, dataindex + 0, filter, width, height, bands ); //Red
-        imgData.data[ imgdataindex + 1 ] = unfilter( data, dataindex + 1, filter, width, height, bands ); //Blue
-        imgData.data[ imgdataindex + 2 ] = unfilter( data, dataindex + 2, filter, width, height, bands ); //Green
-        imgData.data[ imgdataindex + 3 ] = ( bands == 4 ) ? unfilter( data, dataindex + 3, filter, width, height, bands ) : 255; //Alpha
+    var dataindex = 0;
+    var imgdataindex = 0;
 
-        dataindex += bands;
-        imgdataindex += 4;
+    if( palette ) {
+      var color;
+
+      for( var y = 0; y < height; y++ ) {
+
+        dataindex += 1;
+        for( var x = 0; x < width; x++ ) {
+          color = palette[data[dataindex]] || { r: 0, g: 0, b: 0 };
+          imgData.data[ imgdataindex + 0 ] = color.r; //Red
+          imgData.data[ imgdataindex + 1 ] = color.g; //Green
+          imgData.data[ imgdataindex + 2 ] = color.b; //Blue
+          imgData.data[ imgdataindex + 3 ] = ( bands == 4 ) ? 255 : 255; //Alpha
+
+          dataindex += 1;
+          imgdataindex += 4;
+        }
+      }
+    }
+    else {
+      var filter;
+
+      for( var y = 0; y < height; y++ ) {
+        //1 because the first byte of each scanline indicates its filter
+        dataindex += 1;
+        filter = data[ y * ((width*bands) + 1) ]; console.log( filter );
+
+        for( var x = 1; x < width + 1; x++ ) {
+          imgData.data[ imgdataindex + 0 ] = unfilter( data, dataindex + 0, filter, width, height, bands ); //Red
+          imgData.data[ imgdataindex + 1 ] = unfilter( data, dataindex + 1, filter, width, height, bands ); //Green
+          imgData.data[ imgdataindex + 2 ] = unfilter( data, dataindex + 2, filter, width, height, bands ); //Blue
+          imgData.data[ imgdataindex + 3 ] = ( bands == 5 ) ? unfilter( data, dataindex + 3, filter, width, height, bands ) : 255; //Alpha
+
+          dataindex += bands;
+          imgdataindex += 4;
+        }
       }
     }
     context.putImageData( imgData, 0, 0 );
@@ -340,10 +385,10 @@ function (  Pako  ) {
     //Finds the value of the closest to a + b -c
     function paethFilter( a, b, c ) {
       var Pr;
-      var p = a + b - c
-      var pa = Math.abs(p - a)
-      var pb = Math.abs(p - b)
-      var pc = Math.abs(p - c)
+      var p = a + b - c;
+      var pa = Math.abs(p - a);
+      var pb = Math.abs(p - b);
+      var pc = Math.abs(p - c);
       if( pa <= pb && pa <= pc ) Pr = a;
       else if( pb <= pc ) Pr = b;
       else Pr = c;
