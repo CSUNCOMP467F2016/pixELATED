@@ -29,7 +29,7 @@ var require = {
     EraseTool: 'js/Tools/EraseTool',
     BucketTool: 'js/Tools/BucketTool',
 	NoiseTool: 'js/Tools/NoiseTool',
-    SepiaAndExposureTool: 'js/Tools/SepiaAndExposureTool'
+	SepiaAndNoiseTool: 'js/Tools/SepiaAndNoiseTool'
 
   },
   shim: {
