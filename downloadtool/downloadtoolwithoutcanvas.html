@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>download tool</title>
+
+
+
+<!--  insert java script code for canvas here    ---!>
+
+
+
+<script type="text/javascript"> 
+function saveIt()  //this function is called when button is pressed 
+{
+	var myDrawing = document.getElementById("myCanvas") ; 
+	var drawingString = myDrawing.toDataURL ("image/png") ;  //getts element by id of the canvas, calls the id below see code <canvas id="myCanvas" width="225" height="225"> </canvas>
+	var postData = "canvasData="+drawingString; 
+	var ajax = new XMLHttpRequest() ;
+	ajax.open("POST", 'saveImage.php', true) ; //send data to php script 
+	ajax.setRequestHeader('Content-Type', 'canvas/upload') ; 
+	
+	ajax.onreadystatechange= function() //changes state letting know it is done sending and saving 
+	{
+		if (ajax.readyState == 4)
+		{
+		alert("image saved") ; 
+		}
+	}
+	ajax.send(postData) ;  //will send to php page
+}
+</script> 
+</head>
+<body>
+<div> 
+	<canvas id="myCanvas" width="225" height="225"> </canvas>
+</div>
+	<div>
+<button onClick="saveIt();">Save Image </button>  <!-- this is the text in the button call function above --!>
+	</div>
+</button> 
+</body> 
+</html>  
