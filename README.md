@@ -17,7 +17,7 @@ Hold 'shift' to drag and zoom canvas.
     1. Double click toggles between moving the canvas and moving/resizing of crop tool.
     1. Still need to do the actual crop.
   1. Bucket:
-    1. Stops working when zoom is used even once. Sensitivity not yet implemented.
+    1. Redone bucket tool, zooming still features glitches.
 * Basic:
   1. Upload
   1. PNGDecoder
