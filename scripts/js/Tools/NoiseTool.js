@@ -19,24 +19,26 @@ function (     $   ,  d3 ,Canvas ,  Caman ) {
     },
     destroy: function() {
       //Called when the user activates another tool
-       Caman( Canvas.canvas, function () {
+      Caman( Canvas.canvas, function () {
         // manipulate image here
         //this.colorize( ColorizeTool.red, ColorizeTool.green, ColorizeTool.blue, ColorizeTool.strength );
-		this.noise(NoiseTool.Noise);
+		    this.noise(NoiseTool.Noise);
         this.render( function() {
           Canvas.image.src = Canvas.canvas.toDataURL();
         } );
       } );
+      //Canvas.image.src = Canvas.canvas.toDataURL();
     },
-	addValue: function(value) {
-		Caman( Canvas.visual.canvas, function () {
-      	// manipulate image here
-      	this.noise(value);
-        this.render();
-        this.revert(false);
-	});
-	},
-	
+  	addValue: function(value) {
+  		Caman( Canvas.visual.canvas, function () {
+        	// manipulate image here
+          NoiseTool.Noise = value;
+        	this.noise(NoiseTool.Noise);
+          this.render();
+          this.revert(false);
+  	  });
+	 },
+
 	setupOptions: function() {
 		var options = d3.select( '#options' );
       //Noise Slider
@@ -51,10 +53,10 @@ function (     $   ,  d3 ,Canvas ,  Caman ) {
           var val = +this.value;
           NoiseTool.addValue( val);
         } );
-	}	
-	
+	}
+
   };
-  
+
   return NoiseTool;
 
 } );

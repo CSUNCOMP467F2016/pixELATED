@@ -104,9 +104,6 @@ function (    $    ,  d3  ) {
             Canvas.redraw();
           }
         }
-        else {
-          //d3.select( '#' + id ).style( 'cursor', 'auto' );
-        }
       }, false );
 
       this.visual.canvas.addEventListener( 'mouseup', function( e ) {

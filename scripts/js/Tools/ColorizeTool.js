@@ -22,7 +22,7 @@ function (     $   ,  d3 ,Canvas ,  Caman ) {
       //this.myFunction();
 	  this.myCircle();
       this.setupOptions();
-	  
+
     },
     destroy: function() {
       //Called when the user activates another tool
@@ -34,6 +34,7 @@ function (     $   ,  d3 ,Canvas ,  Caman ) {
           Canvas.image.src = Canvas.canvas.toDataURL();
         } );
       } );
+      //Canvas.image.src = Canvas.canvas.toDataURL();
     },
     sliderChange: function( val, s ) {
 
@@ -58,9 +59,9 @@ function (     $   ,  d3 ,Canvas ,  Caman ) {
 
     	//var mys = "#" + redstring + greenstring + bluestring;
 		ColorizeTool.colorForSquare = "#" + redstring + greenstring + bluestring;
-		
+
 		ColorizeTool.Square.transition().style('background', ColorizeTool.colorForSquare);
-		
+
 		//d3.select('#options').transition().style('background', ColorizeTool.colorForSquare);
 		//ColorizeTool.myCircle();
     	//document.getElementById("myDIV").style.backgroundColor = mys;
@@ -153,7 +154,7 @@ function (     $   ,  d3 ,Canvas ,  Caman ) {
     	return result;
     },
 	myCircle: function(){
-	//var var1 = d3.select('#options');	
+	//var var1 = d3.select('#options');
 	//var1.append("p").text("hello");
 	ColorizeTool.Square = d3.select('#options').append('svg')
   .attr('width', 100)
@@ -161,7 +162,7 @@ function (     $   ,  d3 ,Canvas ,  Caman ) {
   .style('background', ColorizeTool.colorForSquare);
 	},
     setupOptions: function() {
-		
+
       var options = d3.select( '#options' );
       //Red Slider
       options.append("p").text("Red ").append( 'input' )
@@ -213,7 +214,7 @@ function (     $   ,  d3 ,Canvas ,  Caman ) {
         } );
 
     }
-	
+
   };
 
   return ColorizeTool;

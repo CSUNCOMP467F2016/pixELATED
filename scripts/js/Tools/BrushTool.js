@@ -19,7 +19,7 @@ function (     $   ,  d3 ,  Canvas ,  Farbtastic  ) {
       this.setupOptions();
     },
     destroy: function () {
-        Canvas.image.src = Canvas.canvas.toDataURL();
+      Canvas.image.src = Canvas.canvas.toDataURL();
       $( '#visualcanvas' ).off( 'mousedown', BrushTool.mouseDown );
       $( '#visualcanvas' ).off( 'mousemove', BrushTool.mouseMove );
       $( '#visualcanvas' ).off( 'mouseup', BrushTool.mouseUp );
