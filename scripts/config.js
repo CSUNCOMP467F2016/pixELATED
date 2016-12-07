@@ -28,7 +28,8 @@ var require = {
     ClearCanvasTool: 'js/Tools/ClearCanvasTool',
     EraseTool: 'js/Tools/EraseTool',
     BucketTool: 'js/Tools/BucketTool',
-	NoiseTool: 'js/Tools/NoiseTool'
+	  NoiseTool: 'js/Tools/NoiseTool',
+    SepiaAndExposureTool: 'js/Tools/SepiaAndExposureTool'
 
   },
   shim: {

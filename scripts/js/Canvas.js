@@ -30,6 +30,7 @@ function (    $    ,  d3  ) {
         .attr( 'id', 'visualcanvas' )
         .attr( 'width', this.visual.width + 'px' )
         .attr( 'height', this.visual.height + 'px' );
+
       this.visual.canvas = document.getElementById( 'visualcanvas' );
       this.visual.context = this.visual.canvas.getContext( '2d' );
       this.visual.offset = $( '#visualcanvas' ).offset();
@@ -102,6 +103,9 @@ function (    $    ,  d3  ) {
             Canvas.visual.context.translate( pt.x-dragStart.x, pt.y-dragStart.y );
             Canvas.redraw();
           }
+        }
+        else {
+          //d3.select( '#' + id ).style( 'cursor', 'auto' );
         }
       }, false );
 
