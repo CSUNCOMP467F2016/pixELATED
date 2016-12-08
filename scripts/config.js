@@ -30,7 +30,8 @@ var require = {
     BucketTool: 'js/Tools/BucketTool',
 	  NoiseTool: 'js/Tools/NoiseTool',
     SepiaAndExposureTool: 'js/Tools/SepiaAndExposureTool',
-    ExportTool: 'js/Tools/ExportTool'
+    ExportTool: 'js/Tools/ExportTool',
+    ContourTool: 'js/Tools/ContourTool'
 
   },
   shim: {

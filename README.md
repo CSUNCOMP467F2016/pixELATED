@@ -18,6 +18,8 @@ Hold 'shift' to drag and zoom canvas.
     1. Still need to do the actual crop.
   1. Bucket:
     1. Redone bucket tool, zooming feature still glitches
+  1. Contour:
+    1. Keeps generating infinite loop.
 * Basic:
   1. Upload
   1. PNGDecoder

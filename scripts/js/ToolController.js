@@ -1,9 +1,9 @@
 define(  [ 'jquery', 'BrushTool', 'RotateTool', 'MirrorTool', 'ColorizeTool', 'CropTool',
            'SatAndHueTool', 'BriAndConTool', 'ClearCanvasTool', 'EraseTool', 'BucketTool',
-			'NoiseTool', 'SepiaAndExposureTool', 'ExportTool' ],
+			'NoiseTool', 'SepiaAndExposureTool', 'ExportTool', 'ContourTool' ],
 function (     $   ,  BrushTool  , RotateTool ,  MirrorTool ,  ColorizeTool ,  CropTool ,
 			SatAndHueTool, BriAndConTool, ClearCanvasTool, EraseTool, BucketTool,
-			NoiseTool, SepiaAndExposureTool, ExportTool ) {
+			NoiseTool, SepiaAndExposureTool, ExportTool, ContourTool ) {
   var ToolController = {
     tools: { 'BrushTool': BrushTool,
              'RotateTool': RotateTool,
@@ -17,7 +17,8 @@ function (     $   ,  BrushTool  , RotateTool ,  MirrorTool ,  ColorizeTool ,  C
              'BucketTool': BucketTool,
              'NoiseTool': NoiseTool,
              'SepiaAndExposureTool': SepiaAndExposureTool,
-             'ExportTool': ExportTool
+             'ExportTool': ExportTool,
+             'ContourTool': ContourTool
             },
     activeTool: null,
     activeToolName: null,
