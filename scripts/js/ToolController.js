@@ -15,7 +15,7 @@ function (     $   ,  BrushTool  , RotateTool ,  MirrorTool ,  ColorizeTool ,  C
              'ClearCanvasTool': ClearCanvasTool,
              'EraseTool': EraseTool,
              'BucketTool': BucketTool,
-			       'NoiseTool': NoiseTool,
+             'NoiseTool': NoiseTool,
              'SepiaAndExposureTool': SepiaAndExposureTool
             },
     activeTool: null,
