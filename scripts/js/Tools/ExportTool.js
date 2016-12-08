@@ -13,7 +13,7 @@ function (     $   ,  d3 ,  Canvas  ) {
 
   var ExportTool = {
     make: function() {
-      this.setupOptions(); console.log('here');
+      this.setupOptions();
     },
     setupOptions: function() {
       var options = d3.select( '#options' ).style( 'width', '240px' );
