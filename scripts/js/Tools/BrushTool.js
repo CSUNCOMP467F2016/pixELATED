@@ -25,7 +25,7 @@ function (     $   ,  d3 ,  Canvas ,  Farbtastic  ) {
       $( '#visualcanvas' ).off( 'mouseup', BrushTool.mouseUp );
     },
     setupOptions: function() {
-      var options = d3.select( '#options' );
+      var options = d3.select( '#options' ).style( 'width', '240px' );
       options.append( 'div' )
         .attr( 'id', 'BrushToolColorPicker' )
         .style( 'display', 'block' )
@@ -37,6 +37,10 @@ function (     $   ,  d3 ,  Canvas ,  Farbtastic  ) {
         BrushTool.colorRGB = hexToRgb( BrushTool.colorHex );
       } );
 
+      options.append( 'label' )
+        .attr( 'for', 'BrushToolWeight' )
+        .html( 'Weight' );
+      options.append( 'br' );
       options.append( 'input' )
         .attr( 'id', 'BrushToolWeight' )
         .attr( 'type', 'range' )
@@ -48,6 +52,12 @@ function (     $   ,  d3 ,  Canvas ,  Farbtastic  ) {
           BrushTool.weight = +this.value;
         } );
 
+      options.append( 'br' );
+
+      options.append( 'label' )
+        .attr( 'for', 'BrushToolSharpness' )
+        .html( 'Sharpness' );
+      options.append( 'br' );
       options.append( 'input' )
         .attr( 'id', 'BrushToolSharpness' )
         .attr( 'type', 'range' )

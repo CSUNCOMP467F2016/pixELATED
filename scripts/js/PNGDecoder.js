@@ -68,7 +68,7 @@ function (  Pako  ) {
     return false;
   }
 
-  //First 11 bytes make up the PNG file signature
+  //First 8 bytes make up the PNG file signature
   /*
     Detect Channel: 1 Byte
     P: 1 Byte
@@ -78,9 +78,6 @@ function (  Pako  ) {
     Line Feed Character: 1 Byte
     DOS End Of File Character: 1 Byte
     Unix Line Feed Character: 1 Byte
-    ASCII NUll: 1 Byte
-    ASCII NUll: 1 Byte
-    ASCII NUll: 1 Byte
   */
   function getSignature( data, i ) {
     var signature = {
@@ -118,7 +115,7 @@ function (  Pako  ) {
     return false;
   }
 
-  //Next 9 make up the header
+  //Next bytes make up the header
   /*
     Length: 4 Bytes
     Width: 4 Bytes

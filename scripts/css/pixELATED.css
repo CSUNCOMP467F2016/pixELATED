@@ -48,12 +48,13 @@ body {
 }
 #toolbar {
   bottom: 50%;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #888;
 }
 #toolbar ul {
   width: 100%;
   margin: 0;
-  padding: 5px;
-  padding-top: 5px;
+  padding: 0;
   list-style-type: none;
 }
 #toolbar ul li {
@@ -66,19 +67,28 @@ body {
   vertical-align: middle;
   text-align: center;
   cursor: pointer;
-  padding: 14px;
-  padding-top: 8px;
+  margin-top: 12px;
+  padding-bottom: 6px;
 }
 #toolbar ul li:hover {
   color: white;
+}
+#toolbar ul li:hover div {
+  opacity: 1;
 }
 #toolbar ul li.active {
   background-color: #3030e8;
   color: white;
 }
+#toolbar ul li.active div {
+  opacity: 1;
+}
 #toolbar ul li i {
-  position: relative;
-  top: 8px;
+
+}
+#toolbar ul li div {
+  opacity: 0;
+  width: auto;
 }
 #options {
   top: 50%;
@@ -91,4 +101,3 @@ body {
 img {
   max-width: 100%;
 }
-
