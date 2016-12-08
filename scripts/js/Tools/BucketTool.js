@@ -68,7 +68,7 @@ function ($, d3, Canvas, Farbtastic) {
                 y: ((e.clientY - Canvas.visual.offset.top - Canvas.visual.context.getTransform().f) / Canvas.visual.context.getTransform().a)
             };
             var options = d3.select('#options');
-            var data = Canvas.context.getImageData(currentPoint.x, currentPoint.y, currentPoint.x + 1, currentPoint.y + 1);
+            var data = Canvas.context.getImageData(currentPoint.x, currentPoint.y, 1, 1);
             options.html('Bucket Color' + data.data[0] + ',' + data.data[1] + ',' + data.data[2] + ',' + data.data[3] + '.');
 
             stack = [[currentPoint.x, currentPoint.y]];
@@ -132,7 +132,7 @@ function ($, d3, Canvas, Farbtastic) {
     }
     
     function equal(point0, point1, data0, data1, data2) {
-        var data = Canvas.context.getImageData(point0, point1, point0 + 1, point1 + 1);
+        var data = Canvas.context.getImageData(point0, point1, 1, 1);
         var r = Math.abs(data0 - data.data[0]);
         var g = Math.abs(data1 - data.data[1]);
         var b = Math.abs(data2 - data.data[2]);
