@@ -10,6 +10,7 @@ function ($, d3, Canvas, Farbtastic) {
         isUsingContour: null,
         lastPoint: null,
         stack: [],
+        imgData: null,
         make: function () {
             Canvas.context.lineJoin = 'round';
             Canvas.context.lineCap = 'round';
@@ -17,6 +18,12 @@ function ($, d3, Canvas, Farbtastic) {
             $('#visualcanvas').on('mousedown', ContourTool.mouseDown);
             $('#visualcanvas').on('mousemove', ContourTool.mouseMove);
             $('#visualcanvas').on('mouseup', ContourTool.mouseUp);
+
+            this.imgData = Canvas.context.createImageData( 1, 1 );
+            ContourTool.imgData.data[0] = ContourTool.colorRGB.r;
+            ContourTool.imgData.data[1] = ContourTool.colorRGB.g;
+            ContourTool.imgData.data[2] = ContourTool.colorRGB.b;
+            ContourTool.imgData.data[3] = 255;
 
             this.setupOptions();
         },
@@ -44,6 +51,11 @@ function ($, d3, Canvas, Farbtastic) {
             $('#ContourToolColorPicker').farbtastic(function () {
                 ContourTool.colorHex = this.color;
                 ContourTool.colorRGB = hexToRgb(ContourTool.colorHex);
+
+                ContourTool.imgData.data[0] = ContourTool.colorRGB.r;
+                ContourTool.imgData.data[1] = ContourTool.colorRGB.g;
+                ContourTool.imgData.data[2] = ContourTool.colorRGB.b;
+                ContourTool.imgData.data[3] = 255;
             });
 
             options.append('text')
@@ -63,9 +75,6 @@ function ($, d3, Canvas, Farbtastic) {
         },
         mouseDown: function (e) {
             ContourTool.isUsingContour = true;
-            
-            
-
 
             var currentPoint = {
                 x: ((e.clientX - Canvas.visual.offset.left - Canvas.visual.context.getTransform().e) / Canvas.visual.context.getTransform().a),
@@ -76,7 +85,7 @@ function ($, d3, Canvas, Farbtastic) {
             options.html('Contour Color' + data.data[0] + ',' + data.data[1] + ',' + data.data[2] + ',' + data.data[3] + '.');
 
             stack = [[currentPoint.x, currentPoint.y]];
-            while (stack.length) {
+            while (stack.length <= 10 ) { //Why 10, why if it's 1000 its still the same result but 1 is different
                 var point, xvalue, yvalue, pointChecker;
                 point = stack.pop();
                 pointChecker = point;
@@ -113,12 +122,12 @@ function ($, d3, Canvas, Farbtastic) {
                     }
                     pointChecker[1]++;
                 }
+                if( stack.length == 0 ) return;
             }
             Canvas.image.src = Canvas.canvas.toDataURL();
         },
         mouseMove: function (e) {
             if (!ContourTool.isUsingContour) return;
-
         },
         mouseUp: function () {
             ContourTool.isUsingContour = false;
@@ -143,11 +152,11 @@ function ($, d3, Canvas, Farbtastic) {
         return (r <= ContourTool.contourSensitivity && g <= ContourTool.contourSensitivity && b <= ContourTool.contourSensitivity);
     }
     function fill(point) {
-        console.log(point);
-        Context.drawImage(Canvas.image,-point[0],-point[1],1,1, point[0], point[1],Canvas.width,Canvas.height);
+        Canvas.context.putImageData( ContourTool.imgData, point[0], point[1] ); //This supposedly works faster
+        //Context.drawImage(Canvas.image,-point[0],-point[1],1,1, point[0], point[1],Canvas.width,Canvas.height);
     }
 
-   
+
 
     return ContourTool;
 
