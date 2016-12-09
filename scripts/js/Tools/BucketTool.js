@@ -69,7 +69,7 @@ function ($, d3, Canvas, Farbtastic) {
             };
             var options = d3.select('#options');
             var data = Canvas.context.getImageData(currentPoint.x, currentPoint.y, 1, 1);
-            options.html('Bucket Color' + data.data[0] + ',' + data.data[1] + ',' + data.data[2] + ',' + data.data[3] + '.');
+            options.html('Bucket Tool Coloring');
 
             stack = [[currentPoint.x, currentPoint.y]];
             while (stack.length) {

@@ -54,8 +54,8 @@ function ($, d3, Canvas, Farbtastic) {
                 y: ((e.clientY - Canvas.visual.offset.top - Canvas.visual.context.getTransform().f) / Canvas.visual.context.getTransform().a)
             };
             var options = d3.select('#options');
-            var data = Canvas.context.getImageData(currentPoint.x, currentPoint.y, currentPoint.x + 1, currentPoint.y + 1);
-            options.html('Contour Color' + data.data[0] + ',' + data.data[1] + ',' + data.data[2] + ',' + data.data[3] + '.');
+            var data = Canvas.context.getImageData(currentPoint.x, currentPoint.y, 1, 1);
+            options.html('Contour Area Selected');
             options.append('button')
               .html('Crop')
               .on('click', function () {
